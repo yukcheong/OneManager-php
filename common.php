@@ -38,7 +38,7 @@ $EnvConfigs = [
     'useBasicAuth'      => 0b010,
     'referrer'          => 0b011,
     'forceHttps'        => 0b010,
-    'littlefilecache'        => 0b010,
+    'littleFileCacheTime'        => 0b010,
 
     'Driver'            => 0b100,
     'client_id'         => 0b100,
@@ -393,11 +393,14 @@ function main($path)
             $url = $files['url'];
             if ( strtolower(splitlast($files['name'], '.')[1])=='html' ) return output($files['content']['body'], $files['content']['stat']);
             else {
-                if ($files['size']<1024*1024 && !!getConfig('littlefilecache')) {
+                $littleFileCacheTime = getConfig('littleFileCacheTime');
+                if ($files['size']<1024*1024 && !!$littleFileCacheTime) {
+                    if ($littleFileCacheTime>1) $littleFileCacheTime *= 3600;
+                    else $littleFileCacheTime = 3600;
                     return output(
                         base64_encode(file_get_contents($files['url'])),
                         200,
-                        ['Content-Type' => $files['mime'], 'Cache-Control' => 'max-age=7200'],
+                        ['Content-Type' => $files['mime'], 'Cache-Control' => 'max-age=' . $littleFileCacheTime],
                         true
                     );
                 }
