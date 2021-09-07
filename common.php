@@ -297,9 +297,10 @@ function main($path)
                 if (strpos($_GET['upbigfilename'], '../')!==false) return output('Not_Allow_Cross_Path', 400);
                 if (strpos($_POST['upbigfilename'], '../')!==false) return output('Not_Allow_Cross_Path', 400);
             }
+            $tmp = adminoperate($path);
             $path1 = path_format($_SERVER['list_path'] . path_format($path));
             if (substr($path1, -1)=='/') $path1=substr($path1, 0, -1);
-            return $drive->bigfileupload($path1);
+            return $tmp;
         }
     }
 
