@@ -156,7 +156,8 @@
 <!--EncryptedStart-->
                 <div style="padding:20px">
 	            <center>
-	                <form action="" method="post">
+	                <form 
+			      ="" method="post">
 		            <input id="password1" name="password1" type="password" placeholder="<!--constStr@InputPassword-->">
 		            <input type="submit" value="<!--constStr@Submit-->">
 	                </form>
@@ -986,6 +987,7 @@
                     delete uploading[upbigfilename];
                 }
             }
+	    xhr1.send('upbigfilename='+ upbigfilename +'&filesize='+ file.size +'&filelastModified='+ file.lastModified +'&filemd5='+ filemd5);
 <!--GuestStart-->
             }
         }
