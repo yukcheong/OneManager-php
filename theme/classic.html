@@ -943,6 +943,9 @@
                 td2.innerHTML='md5: '+filemd5;
                 uploading[upbigfilename] = i;
 <!--GuestEnd-->
+	    String.prototype.beforeLastIndex = function (delimiter) {
+	    	return this.split(delimiter).slice(0,-1).join(delimiter) || this + ""
+	    }
             td2.innerHTML='<!--constStr@GetUploadLink--> ...';
             var xhr1 = new XMLHttpRequest();
             xhr1.open("POST", '?action=upbigfile');
@@ -986,7 +989,7 @@
                     delete uploading[upbigfilename];
                 }
             }
-            xhr1.send('upbigfilename='+ upbigfilename +'&filesize='+ file.size +'&filelastModified='+ file.lastModified +'&filemd5='+ upbigfilename);
+            xhr1.send('upbigfilename='+ upbigfilename +'&filesize='+ file.size +'&filelastModified='+ file.lastModified +'&filemd5='+ upbigfilename.beforeLastIndex("."));
 <!--GuestStart-->
             }
         }
