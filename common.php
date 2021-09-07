@@ -299,7 +299,8 @@ function main($path)
             }
             $tmp = adminoperate($path);
             $path1 = path_format($_SERVER['list_path'] . path_format($path));
-            if (substr($path1, -1)=='/') $path1=substr($path1, 0, -1);
+            if ($path1!='/'&&substr($path1,-1)=='/') $path1 = substr($path1, 0, -1);
+            savecache('path_' . $path1, '', $_SERVER['disktag'], 1);
             return $tmp;
         }
     }
