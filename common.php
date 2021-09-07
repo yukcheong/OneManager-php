@@ -292,11 +292,6 @@ function main($path)
             return $drive->del_upload_cache($path);
         }
         if ($_GET['action']=='upbigfile') {
-            if (!$_SERVER['admin']) {
-                if (!$_SERVER['is_guestup_path']) return output('Not_Guest_Upload_Folder', 400);
-                if (strpos($_GET['upbigfilename'], '../')!==false) return output('Not_Allow_Cross_Path', 400);
-                if (strpos($_POST['upbigfilename'], '../')!==false) return output('Not_Allow_Cross_Path', 400);
-            }
             $path1 = path_format($_SERVER['list_path'] . path_format($path));
             if (substr($path1, -1)=='/') $path1=substr($path1, 0, -1);
             return $drive->bigfileupload($path1);
