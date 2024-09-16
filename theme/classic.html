@@ -156,7 +156,8 @@
 <!--EncryptedStart-->
                 <div style="padding:20px">
 	            <center>
-	                <form action="" method="post">
+	                <form 
+			      ="" method="post">
 		            <input id="password1" name="password1" type="password" placeholder="<!--constStr@InputPassword-->">
 		            <input type="submit" value="<!--constStr@Submit-->">
 	                </form>
@@ -932,7 +933,6 @@
         readblob(asize);
 
         reader.onload = function(e){
-            td2.innerHTML='<!--constStr@Calculate--> md5: '+(asize*100/file.size).toFixed(2)+'%';
             var binary = this.result;
             spark.append(binary);
             asize += chunksize;
@@ -940,11 +940,11 @@
                 readblob(asize);
             } else {
                 filemd5 = spark.end();
-                td2.innerHTML='md5: '+filemd5;
-                delete uploading[upbigfilename];
-                upbigfilename = filemd5+ext;
                 uploading[upbigfilename] = i;
 <!--GuestEnd-->
+	    String.prototype.beforeLastIndex = function (delimiter) {
+	    	return this.split(delimiter).slice(0,-1).join(delimiter) || this + ""
+	    }
             td2.innerHTML='<!--constStr@GetUploadLink--> ...';
             var xhr1 = new XMLHttpRequest();
             xhr1.open("POST", '?action=upbigfile');
@@ -974,8 +974,7 @@
                         var html=JSON.parse(xhr1.responseText);
                         td2.innerHTML=html['error']['code']+': '+html['error']['message'];
 <!--GuestStart-->
-                        td2.innerHTML='md5: '+filemd5;
-                        td1.innerHTML='<div style="color:green"><a href="<!--base_disk_path--><!--Path-->'+upbigfilename+'?preview" id="upfile_a_'+tdnum+'" target="_blank">'+td1.innerHTML+'</a><br><a href="<!--base_disk_path--><!--Path-->'+upbigfilename+'" id="upfile_a1_'+tdnum+'"></a><!--constStr@UploadComplete--><button onclick="CopyAllDownloadUrl(\'#upfile_a1_'+tdnum+'\');" id="upfile_cpbt_'+tdnum+'"><!--constStr@CopyUrl--></button></div>';
+                        td1.innerHTML='<div style="color:green"><a href="<!--base_disk_path--><!--Path-->'+(file.webkitRelativePath||file.name)+'?preview" id="upfile_a_'+tdnum+'" target="_blank">'+td1.innerHTML+'</a><br><a href="<!--base_disk_path--><!--Path-->'+(file.webkitRelativePath||file.name)+'" id="upfile_a1_'+tdnum+'"></a><!--constStr@UploadComplete--><button onclick="CopyAllDownloadUrl(\'#upfile_a1_'+tdnum+'\');" id="upfile_cpbt_'+tdnum+'" style="display:none"><!--constStr@CopyUrl--></button></div>';
 <!--GuestEnd-->
 <!--AdminStart-->
                         td1.innerHTML='<div style="color:green"><a href="<!--base_disk_path--><!--Path-->'+(file.webkitRelativePath||file.name)+'?preview" id="upfile_a_'+tdnum+'" target="_blank">'+td1.innerHTML+'</a><br><a href="<!--base_disk_path--><!--Path-->'+(file.webkitRelativePath||file.name)+'" id="upfile_a1_'+tdnum+'"></a><!--constStr@UploadComplete--><button onclick="CopyAllDownloadUrl(\'#upfile_a1_'+tdnum+'\');" id="upfile_cpbt_'+tdnum+'" style="display:none"><!--constStr@CopyUrl--></button></div>';
@@ -988,7 +987,7 @@
                     delete uploading[upbigfilename];
                 }
             }
-            xhr1.send('upbigfilename='+ upbigfilename +'&filesize='+ file.size +'&filelastModified='+ file.lastModified +'&filemd5='+ filemd5);
+	    xhr1.send('upbigfilename='+ upbigfilename +'&filesize='+ file.size +'&filelastModified='+ file.lastModified +'&filemd5='+ upbigfilename.beforeLastIndex("."));
 <!--GuestStart-->
             }
         }
